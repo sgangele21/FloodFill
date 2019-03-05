@@ -8,7 +8,9 @@
 
 import UIKit
 
-public struct Cell {
+public class Cell: UIView {
+    
+    var visited: Bool = false
     
 }
 
@@ -20,7 +22,7 @@ public class Grid: UIView {
     var cellHeight: CGFloat = 0.0
     var cellWidth : CGFloat = 0.0
     
-    var cells: [Int : Cell] = [:]
+    var cells: [String : Cell] = [:]
     
     public init(frame: CGRect, numOfRows: Int, numOfCols: Int) {
         super.init(frame: frame)
@@ -36,12 +38,14 @@ public class Grid: UIView {
     public func drawCells() {
         for i in 0..<self.numOfRows {
             for j in 0..<self.numOfCols  {
-                let view = UIView(frame: CGRect(x: self.cellWidth * CGFloat(j), y: self.cellHeight * CGFloat(i), width: self.cellWidth, height: self.cellHeight))
-                self.layer.borderWidth = 1.0
-                self.layer.borderColor = UIColor.black.cgColor
-                self.backgroundColor = UIColor.red
-                
-                self.addSubview(view)
+                let view = Cell(frame: CGRect(x: self.cellWidth * CGFloat(j), y: self.cellHeight * CGFloat(i), width: self.cellWidth, height: self.cellHeight))
+                cells["\(i),\(j)"] = view
+                view.layer.borderWidth = 1.0
+                view.layer.borderColor = UIColor.black.cgColor
+                view.backgroundColor = UIColor.red
+                DispatchQueue.main.async {
+                    self.addSubview(view)
+                }
             }
             
         }
